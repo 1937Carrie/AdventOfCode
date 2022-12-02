@@ -2,8 +2,13 @@ package year2022.day1;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.stream.Stream;
 
 public class Part2 {
     public static void main(String[] args) {
@@ -24,20 +29,28 @@ public class Part2 {
         System.out.println(totalCaloriesByElf.get(0) + totalCaloriesByElf.get(1) + totalCaloriesByElf.get(2));
     }
 
-    private static String[] readFile(String path) {
-        String s;
+    private static String[] readFile(String filePath) {
+        Path path = Paths.get(filePath);
 
-        try (FileReader fileReader = new FileReader(path);
-             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-            java.util.ArrayList<String> arrayList = new java.util.ArrayList<>();
+        long linesCount;
+        String[] file;
+        String line;
 
-            while ((s = bufferedReader.readLine()) != null) {
-                arrayList.add(s);
+        try (Stream<String> lines = Files.lines(path);
+             BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+            linesCount = lines.count();
+
+            file = new String[(int) linesCount];
+
+            int lineCounter = 0;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                file[lineCounter++] = line;
             }
-
-            return arrayList.toArray(new String[0]);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (IOException exc) {
+            throw new RuntimeException();
         }
+
+        return file;
     }
 }

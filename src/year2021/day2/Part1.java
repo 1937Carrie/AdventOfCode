@@ -1,4 +1,4 @@
-package year2021.day1;
+package year2021.day2;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,18 +10,29 @@ import java.util.stream.Stream;
 
 public class Part1 {
     public static void main(String[] args) {
-        String path = "D:\\Downloads\\input.txt";
+        String path = "D:\\Downloads\\2021.day.2.input.txt";
         String[] file = readFile(path);
 
-        int largerThanPrevious = 0;
+        int horizontal = 0;
+        int depth = 0;
 
-        for (int i = 0; i < file.length - 1; i++) {
-            if (Integer.parseInt(file[i + 1]) > Integer.parseInt(file[i])) {
-                largerThanPrevious++;
+        for (String line : file) {
+            String[] split = line.split("\\b\\D*\\b");
+
+            if (line.contains("forward")) {
+                horizontal += Integer.parseInt(split[2]);
+            }
+            else {
+                if (line.contains("up")) {
+                    depth -= Integer.parseInt(split[2]);
+                }
+                else {
+                    depth += Integer.parseInt(split[2]);
+                }
             }
         }
 
-        System.out.println(largerThanPrevious);
+        System.out.println(horizontal * depth);
     }
 
     private static String[] readFile(String filePath) {

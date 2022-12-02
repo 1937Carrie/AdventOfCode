@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 public class Part2 {
     public static void main(String[] args) {
@@ -30,18 +31,17 @@ public class Part2 {
 
     private static String[] readFile(String filePath) {
         Path path = Paths.get(filePath);
+
         long linesCount;
-
-        try {
-            linesCount = Files.lines(path).count();
-        } catch (IOException exc) {
-            throw new RuntimeException();
-        }
-
+        String[] file;
         String line;
-        String[] file = new String[(int) linesCount];
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+        try (Stream<String> lines = Files.lines(path);
+             BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+            linesCount = lines.count();
+
+            file = new String[(int) linesCount];
+
             int lineCounter = 0;
 
             while ((line = bufferedReader.readLine()) != null) {
