@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.stream.Stream;
 
 public class Part2 {
@@ -27,53 +28,19 @@ public class Part2 {
     }
 
     private static int getResultForOneRound(String opponentChoose, String myChoose) {
-        int winOrLose = 0;
-        int itemScore = 0;
+        HashMap<String, Integer> truthMap = new HashMap<>();
 
-        if (myChoose.equals("X")) {
-            winOrLose = 0;
-            switch (opponentChoose) {
-                case "A":
-                    itemScore = 3;
-                    break;
-                case "B":
-                    itemScore = 1;
-                    break;
-                case "C":
-                    itemScore = 2;
-                    break;
-            }
-        }
-        else if (myChoose.equals("Y")) {
-            winOrLose = 3;
-            switch (opponentChoose) {
-                case "A":
-                    itemScore = 1;
-                    break;
-                case "B":
-                    itemScore = 2;
-                    break;
-                case "C":
-                    itemScore = 3;
-                    break;
-            }
-        }
-        else {
-            winOrLose = 6;
-            switch (opponentChoose) {
-                case "A":
-                    itemScore = 2;
-                    break;
-                case "B":
-                    itemScore = 3;
-                    break;
-                case "C":
-                    itemScore = 1;
-                    break;
-            }
-        }
+        truthMap.put("AX", 3 + 0);
+        truthMap.put("BX", 1 + 0);
+        truthMap.put("CX", 2 + 0);
+        truthMap.put("AY", 1 + 3);
+        truthMap.put("BY", 2 + 3);
+        truthMap.put("CY", 3 + 3);
+        truthMap.put("AZ", 2 + 6);
+        truthMap.put("BZ", 3 + 6);
+        truthMap.put("CZ", 1 + 6);
 
-        return itemScore + winOrLose;
+        return truthMap.get(opponentChoose + myChoose);
     }
 
     private static String[] readFile(String filePath) {
