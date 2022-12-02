@@ -29,26 +29,18 @@ public class Part1 {
 
     private static int getResultForOneRound(String opponentChoose, String myChoose) {
         HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
-        stringIntegerHashMap.put("X", 1);
-        stringIntegerHashMap.put("Y", 2);
-        stringIntegerHashMap.put("Z", 3);
 
-        int winOrLose = 0;
+        stringIntegerHashMap.put("AX", 1 + 3);
+        stringIntegerHashMap.put("BX", 1 + 0);
+        stringIntegerHashMap.put("CX", 1 + 6);
+        stringIntegerHashMap.put("AY", 2 + 6);
+        stringIntegerHashMap.put("BY", 2 + 3);
+        stringIntegerHashMap.put("CY", 2 + 0);
+        stringIntegerHashMap.put("AZ", 3 + 0);
+        stringIntegerHashMap.put("BZ", 3 + 6);
+        stringIntegerHashMap.put("CZ", 3 + 3);
 
-        if (opponentChoose.equals("A") && myChoose.equals("X") ||
-                opponentChoose.equals("B") && myChoose.equals("Y") ||
-                opponentChoose.equals("C") && myChoose.equals("Z")) {
-            winOrLose = 3;
-        }
-        else if (opponentChoose.equals("A") && myChoose.equals("Z") ||
-                opponentChoose.equals("B") && myChoose.equals("X") ||
-                opponentChoose.equals("C") && myChoose.equals("Y")) {
-            winOrLose = 0;
-        }
-        else {
-            winOrLose = 6;
-        }
-        return stringIntegerHashMap.get(myChoose) + winOrLose;
+        return stringIntegerHashMap.get(opponentChoose + myChoose);
     }
 
     private static String[] readFile(String filePath) {
