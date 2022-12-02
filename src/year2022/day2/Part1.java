@@ -28,19 +28,19 @@ public class Part1 {
     }
 
     private static int getResultForOneRound(String opponentChoose, String myChoose) {
-        HashMap<String, Integer> stringIntegerHashMap = new HashMap<>();
+        HashMap<String, Integer> truthMap = new HashMap<>();
 
-        stringIntegerHashMap.put("AX", 1 + 3);
-        stringIntegerHashMap.put("BX", 1 + 0);
-        stringIntegerHashMap.put("CX", 1 + 6);
-        stringIntegerHashMap.put("AY", 2 + 6);
-        stringIntegerHashMap.put("BY", 2 + 3);
-        stringIntegerHashMap.put("CY", 2 + 0);
-        stringIntegerHashMap.put("AZ", 3 + 0);
-        stringIntegerHashMap.put("BZ", 3 + 6);
-        stringIntegerHashMap.put("CZ", 3 + 3);
+        truthMap.put("AX", 1 + 3);
+        truthMap.put("BX", 1 + 0);
+        truthMap.put("CX", 1 + 6);
+        truthMap.put("AY", 2 + 6);
+        truthMap.put("BY", 2 + 3);
+        truthMap.put("CY", 2 + 0);
+        truthMap.put("AZ", 3 + 0);
+        truthMap.put("BZ", 3 + 6);
+        truthMap.put("CZ", 3 + 3);
 
-        return stringIntegerHashMap.get(opponentChoose + myChoose);
+        return truthMap.get(opponentChoose + myChoose);
     }
 
     private static String[] readFile(String filePath) {
