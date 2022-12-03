@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class Part1 {
@@ -30,7 +32,10 @@ public class Part1 {
             String firstCompartment = line.substring(0, line.length() / 2);
             String secondCompartment = line.substring(line.length() / 2);
 
-            for (char ch : firstCompartment.toCharArray()) {
+            List<String> symbolsInLine = Arrays.asList(firstCompartment.split(""));
+            Object[] distinctSymbolsInLine = symbolsInLine.stream().distinct().toArray();
+
+            for (Object ch : distinctSymbolsInLine) {
                 if (secondCompartment.contains(String.valueOf(ch))) {
                     sum += priorities.get(String.valueOf(ch));
                     break;
