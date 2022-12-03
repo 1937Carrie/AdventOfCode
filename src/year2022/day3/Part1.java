@@ -32,10 +32,10 @@ public class Part1 {
             String firstCompartment = line.substring(0, line.length() / 2);
             String secondCompartment = line.substring(line.length() / 2);
 
-            List<String> symbolsInLine = Arrays.asList(firstCompartment.split(""));
-            Object[] distinctSymbolsInLine = symbolsInLine.stream().distinct().toArray();
+            List<String> firstCompartmentList = Arrays.asList(firstCompartment.split(""));
+            Object[] firstCompartmentDistinctSymbols = firstCompartmentList.stream().distinct().toArray();
 
-            for (Object ch : distinctSymbolsInLine) {
+            for (Object ch : firstCompartmentDistinctSymbols) {
                 if (secondCompartment.contains(String.valueOf(ch))) {
                     sum += priorities.get(String.valueOf(ch));
                     break;
