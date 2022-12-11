@@ -4,136 +4,67 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class Part1 {
+    static int hx = 0, hy = 0;
+    static int tx = 0, ty = 0;
+
     public static void main(String[] args) {
-        //Correct answer = 6087, received answer = 6072
         String path = "D:\\Downloads\\2022.day.9.input.txt";
         String[] content;
 
         try {
             content = Files.readString(Path.of(path), StandardCharsets.UTF_8).split("\n");
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        HeadTail headTail = new HeadTail(new Point(0, 0), new Point(0, 0));
+        HashMap<String, int[]> dd = new HashMap<>();
+        dd.put("R", new int[]{1, 0});
+        dd.put("U", new int[]{0, 1});
+        dd.put("L", new int[]{-1, 0});
+        dd.put("D", new int[]{0, -1});
 
-        HashSet<String> tails = new HashSet<>();
-        tails.add(headTail.tail.x + ", " + headTail.tail.y);
+//        HashSet<String> tailVisited = new HashSet<>();
+        HashSet<String> tailVisited = new HashSet<>();
+//        tailVisited.add(String.format("%d, %d", tx, ty));
+        tailVisited.add(String.format("%d, %d", tx, ty));
 
         for (String line : content) {
-            String[] splitted = line.split("\s");
-            headTail = makeHT(splitted, headTail, tails);
-        }
+            String[] splitted = line.split("\\s");
 
-        System.out.println(tails.size());
-    }
+            String op = splitted[0];
+            int amount = Integer.parseInt(splitted[1]);
 
-    private static HeadTail makeHT(String[] splitted, HeadTail headTail, HashSet<String> tails) {
-        String vector = splitted[0];
-        int delta = Integer.parseInt(splitted[1]);
+            int dx = dd.get(op)[0];
+            int dy = dd.get(op)[1];
 
-        Point head = headTail.head;
-        Point tail = headTail.tail;
-
-        for (int i = 0; i < delta; i++) {
-            switch (vector) {
-                case "U" -> {
-                    head.y++;
-                    tail = checkDistance(head, tail) ? moveTtoH(head, tail) : tail;
-                }
-                case "D" -> {
-                    head.y--;
-                    tail = checkDistance(head, tail) ? moveTtoH(head, tail) : tail;
-                }
-                case "L" -> {
-                    head.x--;
-                    tail = checkDistance(head, tail) ? moveTtoH(head, tail) : tail;
-                }
-                default -> {
-                    head.x++;
-                    tail = checkDistance(head, tail) ? moveTtoH(head, tail) : tail;
-                }
-            }
-
-            tails.add(tail.x + ", " + tail.y);
-        }
-
-        return new HeadTail(head, tail);
-    }
-
-    private static Point moveTtoH(Point head, Point tail) {
-        if (head.x == tail.x) {
-            if (head.y > tail.y) {
-                return new Point(tail.x, tail.y + 1);
-            }
-            else {
-                return new Point(tail.x, tail.y - 1);
+            for (int i = 0; i < amount; i++) {
+                move(dx, dy);
+                tailVisited.add(String.format("%d, %d", tx, ty));
             }
         }
-        else if (head.y == tail.y) {
-            if (head.x > tail.x) {
-                return new Point(tail.x + 1, tail.y);
-            }
-            else {
-                return new Point(tail.x - 1, tail.y);
-            }
+
+        System.out.println(tailVisited.size());
+
+    }
+
+    static boolean isTouching(int x1, int y1, int x2, int y2) {
+        return StrictMath.abs(x1 - x2) <= 1 && StrictMath.abs(y1 - y2) <= 1;
+    }
+
+    static void move(int dx, int dy) {
+        hx += dx;
+        hy += dy;
+
+        if (!isTouching(hx, hy, tx, ty)) {
+            int sign_x = hx == tx ? 0 : (hx - tx) / StrictMath.abs(hx - tx);
+            int sign_y = hy == ty ? 0 : (hy - ty) / StrictMath.abs(hy - ty);
+
+            tx += sign_x;
+            ty += sign_y;
         }
-        else {
-            if (head.x < tail.x && head.y > tail.y) {
-                return new Point(tail.x - 1, tail.y + 1);
-            }
-            else if (head.x > tail.x && head.y > tail.y) {
-                return new Point(tail.x + 1, tail.y + 1);
-            }
-            else if (head.x > tail.x && head.y < tail.y) {
-                return new Point(tail.x + 1, tail.y - 1);
-            }
-            else {
-                return new Point(tail.x - 1, tail.y - 1);
-            }
-        }
-    }
-
-    private static boolean checkDistance(Point head, Point tail) {
-        int deltaX = StrictMath.abs(StrictMath.abs(tail.x) - StrictMath.abs(head.x));
-        int deltaY = StrictMath.abs(StrictMath.abs(tail.y) - StrictMath.abs(head.y));
-
-        return deltaX > 1 || deltaY > 1;
-    }
-}
-
-
-class HeadTail {
-    Point head;
-    Point tail;
-
-    HeadTail(Point head, Point tail) {
-        this.head = head;
-        this.tail = tail;
-    }
-
-    @Override
-    public String toString() {
-        return "head = " + head + ", tail = " + tail;
-    }
-}
-
-class Point {
-    int x;
-    int y;
-
-    Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    @Override
-    public String toString() {
-        return "(" + x + ", " + y + ")";
     }
 }
